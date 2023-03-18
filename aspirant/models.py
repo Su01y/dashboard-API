@@ -29,19 +29,20 @@ class Aspirant(models.Model):
     gender = models.CharField(max_length=2, choices=GENDER)
     exp = models.IntegerField(default=0)
     age = models.IntegerField(default=18)
-    techologes = models.ManyToManyField('Technologies', blank=True, null=True, related_name='aspirants')
+    technologies = models.ManyToManyField('Technologies', blank=True, null=True, related_name='aspirants')
     gpa = models.FloatField()
     education = models.CharField(max_length=2, choices=EDUCATION, default='high scool')
     achievenments = models.TextField(max_length=5000, blank=True, null=True)
     hobbies = models.TextField(max_length=5000, blank=True, null=True)
     rang = models.CharField(max_length=2, choices=RANG, default='no rang')
     score = models.IntegerField(default=0, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.first_name + ' ' + self.last_name
 
     def save(self, *args, **kwargs):
-        self.score = int(self.rang) * 91 + int(self.education) * 33 + self.exp * 97 + int(self.gpa * 100) + len(self.achievenments) * 19
+        self.score = int(self.rang) * 74 + int(self.education) * 33 + self.exp * 89 + int(pow(self.gpa, 3))
         super().save(*args, **kwargs)
 
     class Meta:
