@@ -42,6 +42,7 @@ class Aspirant(models.Model):
 
     def save(self, *args, **kwargs):
         self.score = int(self.rang) * 74 + int(self.education) * 33 + self.exp * 89 + int(pow(self.gpa, 3))
+        self.score = int(pow(self.score, 1.5))
         super().save(*args, **kwargs)
 
     class Meta:
