@@ -20,7 +20,7 @@ class FilterTechnologies(APIView):
         return Response(serializer.data)
 
 
-class SelectedAspirents(APIView):
+class SelectedAspirants(APIView):
     def post(self, request):
         field_value = request.data.get('id', ())
         aspirants = Aspirant.objects.filter(id__in=field_value)
