@@ -24,8 +24,7 @@ class Aspirant(models.Model):
         ('F', 'Female'),
     )
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    name = models.TextField(max_length=50, null=True, blank=True)
     gender = models.CharField(max_length=2, choices=GENDER)
     exp = models.IntegerField(default=0)
     age = models.IntegerField(default=18)
@@ -39,7 +38,7 @@ class Aspirant(models.Model):
     email = models.EmailField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return self.first_name + ' ' + self.last_name
+        return self.name
 
     def save(self, *args, **kwargs):
         self.score = int(self.rang) * 74 + int(self.education) * 33 + self.exp * 89 + int(pow(self.gpa, 3))

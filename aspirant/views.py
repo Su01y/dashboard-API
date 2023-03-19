@@ -1,5 +1,7 @@
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import Aspirant, Technologies
 from .serializers import AspirantSerializer, TechnologiesSerializer
@@ -8,8 +10,15 @@ from .serializers import AspirantSerializer, TechnologiesSerializer
 class AspirantListView(generics.ListAPIView):
     serializer_class = AspirantSerializer
     queryset = Aspirant.objects.all()
-    # filter_backends = [DjangoFilterBackend]
-    # filteset_fields = ['education', 'rang', 'gender', 'exp', 'age', 'technologies', 'gpa']
+
+
+class FilterTechnologies(APIView):
+    def post(self, request):
+        field_value = request.data.get('technologies', ())
+        print(field_value)
+        aspirants = Aspirant.objects.filter(technologies__in=field_value)
+        serializer = AspirantSerializer(aspirants, many=True)
+        return Response(serializer.data)
 
 
 class TechnologiesListView(generics.ListAPIView):
