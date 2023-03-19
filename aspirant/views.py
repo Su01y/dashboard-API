@@ -15,8 +15,15 @@ class AspirantListView(generics.ListAPIView):
 class FilterTechnologies(APIView):
     def post(self, request):
         field_value = request.data.get('technologies', ())
-        print(field_value)
         aspirants = Aspirant.objects.filter(technologies__in=field_value)
+        serializer = AspirantSerializer(aspirants, many=True)
+        return Response(serializer.data)
+
+
+class SelectedAspirents(APIView):
+    def post(self, request):
+        field_value = request.data.get('id', ())
+        aspirants = Aspirant.objects.filter(id__in=field_value)
         serializer = AspirantSerializer(aspirants, many=True)
         return Response(serializer.data)
 
